@@ -1,0 +1,89 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container text-center mt-5">
+    <h1 class="display-4 mb-4">Bem-vindo</h1>
+    <p>Explore as seções abaixo:</p>
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-4 mb-4">
+            <div class="card custom-card bg-primary text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Autor</h5>
+                    <p class="card-text">Saiba mais sobre o autor do trabalho.</p>
+                    <a href="/Autor" style="background-color:white;" class="btn">Ir para Autor</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4 mb-4">
+            <div class="card custom-card bg-success text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Trabalho</h5>
+                    <p class="card-text">Detalhes sobre o trabalho realizado.</p>
+                    <a href="/Trabalho" style="background-color:white;" class="btn">Ir para Trabalho</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4 mb-4">
+            <div class="card custom-card bg-danger text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Professor</h5>
+                    <p class="card-text">Informações sobre o professor.</p>
+                    <a href="/Professor" style="background-color:white;" class="btn">Ir para Professor</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-4 mb-4">
+            <div class="card custom-card bg-warning text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Orientador</h5>
+                    <p class="card-text">Detalhes sobre o orientador do trabalho.</p>
+                    <a href="/Orientador" style="background-color:white;" class="btn">Ir para Orientador</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4 mb-4">
+            <div class="card custom-card bg-info text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Membro Externo</h5>
+                    <p class="card-text">Saiba mais sobre os membros externos da banca.</p>
+                    <a href="/MembroExterior" style="background-color:white;" class="btn">Ir para Membro Exterior</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4 mb-4">
+            <div class="card custom-card bg-dark text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Curso</h5>
+                    <p class="card-text">Informações sobre o curso.</p>
+                    <a href="/Curso" style="background-color:white;" class="btn">Ir para Curso</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-4 mb-4">
+            <div class="card custom-card bg-secondary text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Banca</h5>
+                    <p class="card-text">Detalhes sobre a banca avaliadora.</p>
+                    <a href="/Banca" style="background-color:white;" class="btn">Ir para Banca</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Adicionando o CSS customizado para o efeito de hover -->
+<style>
+    .custom-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .custom-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+</style>

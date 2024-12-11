@@ -1,0 +1,48 @@
+﻿@model BancaTCC.Models.Trabalho
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Trabalho</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="TrabalhoTema" class="control-label"></label>
+                <input asp-for="TrabalhoTema" class="form-control" />
+                <span asp-validation-for="TrabalhoTema" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TrabalhoArea" class="control-label"></label>
+                <input asp-for="TrabalhoArea" class="form-control" />
+                <span asp-validation-for="TrabalhoArea" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TrabalhoLink" class="control-label"></label>
+                <input asp-for="TrabalhoLink" class="form-control" />
+                <span asp-validation-for="TrabalhoLink" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TrabalhoGitLink" class="control-label"></label>
+                <input asp-for="TrabalhoGitLink" class="form-control" />
+                <span asp-validation-for="TrabalhoGitLink" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

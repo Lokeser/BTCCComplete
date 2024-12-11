@@ -1,0 +1,42 @@
+﻿@model BancaTCC.Models.Trabalho
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Trabalho</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TrabalhoTema)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TrabalhoTema)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TrabalhoArea)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TrabalhoArea)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TrabalhoLink)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TrabalhoLink)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TrabalhoGitLink)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TrabalhoGitLink)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
