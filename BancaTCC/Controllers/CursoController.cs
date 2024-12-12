@@ -21,6 +21,13 @@ namespace BancaTCC.Controllers
         // GET: Curso
         public async Task<IActionResult> Index()
         {
+            var curso = await _context.Cursos
+                .Include(b => b.Professores)
+                .ToListAsync();
+            var aluno = await _context.Cursos
+                .Include(c => c.Autores)
+                .ToListAsync();
+
             return View(await _context.Cursos.ToListAsync());
         }
 
@@ -33,7 +40,11 @@ namespace BancaTCC.Controllers
             }
 
             var curso = await _context.Cursos
+                .Include(b => b.Professores)
                 .FirstOrDefaultAsync(m => m.Id == id);
+            var aluno = await _context.Cursos
+                .Include(c => c.Autores) // Carregar os alunos matriculados
+                .FirstOrDefaultAsync(c => c.Id == id);
             if (curso == null)
             {
                 return NotFound();

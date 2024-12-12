@@ -1,89 +1,180 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿<div class="container">
+    <h1 class="main-heading">Central de TCC</h1>
+    <div class="card-container">
+        <!-- Primeira Coluna (Autor, Professor e Convidado) -->
+        <div class="card-column">
+            <div class="card" style="background-color: #87CEEB;">
+                <h3 class="card-title">Autor</h3>
+                <p class="card-text">Saiba mais sobre o autor do trabalho. Acesse detalhes sobre a pessoa responsável pela elaboração do TCC.</p>
+                <a href="/Autor" class="btn-custom">
+                    Acesse
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z" />
+                        <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z" />
+                    </svg>
+                </a>
+            </div>
 
-<div class="container text-center mt-5">
-    <h1 class="display-4 mb-4">Bem-vindo</h1>
-    <p>Explore as seções abaixo:</p>
-    <div class="row justify-content-center">
-        <div class="col-12 col-md-4 mb-4">
-            <div class="card custom-card bg-primary text-white">
-                <div class="card-body">
-                    <h5 class="card-title">Autor</h5>
-                    <p class="card-text">Saiba mais sobre o autor do trabalho.</p>
-                    <a href="/Autor" style="background-color:white;" class="btn">Ir para Autor</a>
-                </div>
+            <div class="card" style="background-color: #1E90FF;">
+                <h3 class="card-title">Professor</h3>
+                <p class="card-text">Informações sobre o professor. Conheça o docente que supervisiona o trabalho acadêmico..</p>
+                <a href="/Professor" class="btn-custom">
+                    Acesse
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z" />
+                        <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z" />
+                    </svg>
+                </a>
+            </div>
+            <div class="card" style="background-color: #00008B;">
+                <h3 class="card-title">Convidado</h3>
+                <p class="card-text">Informações sobre Membro Exterior. Administre todos os convidados.</p>
+                <a href="/MembroExterior" class="btn-custom">
+                    Acesse
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z" />
+                        <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z" />
+                    </svg>
+                </a>
             </div>
         </div>
-        <div class="col-12 col-md-4 mb-4">
-            <div class="card custom-card bg-success text-white">
-                <div class="card-body">
-                    <h5 class="card-title">Trabalho</h5>
-                    <p class="card-text">Detalhes sobre o trabalho realizado.</p>
-                    <a href="/Trabalho" style="background-color:white;" class="btn">Ir para Trabalho</a>
-                </div>
+
+        <!-- Segunda Coluna (Banca) -->
+        <div class="card-column banca-column">
+            <img src="~/lib/img/v1.png" alt="UGB">
+
+            <div class="card banca-card" style="background-color: #1E90FF;">
+                <h3 class="card-title">Banca</h3>
+                <p class="card-text">Detalhes sobre a banca do trabalho. A Banca é o núcleo central da avaliação do TCC, composta por especialistas que avaliarão a qualidade do trabalho apresentado.</p>
+                <a href="/Banca" class="btn-custom">
+                    Acesse
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="16" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 20 16">
+                        <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z" />
+                        <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z" />
+                    </svg>
+                </a>
             </div>
         </div>
-        <div class="col-12 col-md-4 mb-4">
-            <div class="card custom-card bg-danger text-white">
-                <div class="card-body">
-                    <h5 class="card-title">Professor</h5>
-                    <p class="card-text">Informações sobre o professor.</p>
-                    <a href="/Professor" style="background-color:white;" class="btn">Ir para Professor</a>
-                </div>
+
+        <!-- Terceira Coluna (Curso, Trabalho e Orientador) -->
+        <div class="card-column">
+            <div class="card" style="background-color: #9370DB;">
+                <h3 class="card-title">Curso</h3>
+                <p class="card-text">Informações sobre o curso. Conheça o curso em que o TCC está inserido, com detalhes sobre sua estrutura e requisitos acadêmicos.</p>
+                <a href="/Curso" class="btn-custom">
+                    Acesse
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z" />
+                        <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z" />
+                    </svg>
+                </a>
             </div>
-        </div>
-    </div>
-    <div class="row justify-content-center">
-        <div class="col-12 col-md-4 mb-4">
-            <div class="card custom-card bg-warning text-white">
-                <div class="card-body">
-                    <h5 class="card-title">Orientador</h5>
-                    <p class="card-text">Detalhes sobre o orientador do trabalho.</p>
-                    <a href="/Orientador" style="background-color:white;" class="btn">Ir para Orientador</a>
-                </div>
+
+            <div class="card" style="background-color: #8A2BE2;">
+                <h3 class="card-title">Trabalho</h3>
+                <p class="card-text">Informações sobre o trabalho. Acesse detalhes sobre o TCC.</p>
+                <a href="/Trabalho" class="btn-custom">
+                    Acesse
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z" />
+                        <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z" />
+                    </svg>
+                </a>
             </div>
-        </div>
-        <div class="col-12 col-md-4 mb-4">
-            <div class="card custom-card bg-info text-white">
-                <div class="card-body">
-                    <h5 class="card-title">Membro Externo</h5>
-                    <p class="card-text">Saiba mais sobre os membros externos da banca.</p>
-                    <a href="/MembroExterior" style="background-color:white;" class="btn">Ir para Membro Exterior</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-md-4 mb-4">
-            <div class="card custom-card bg-dark text-white">
-                <div class="card-body">
-                    <h5 class="card-title">Curso</h5>
-                    <p class="card-text">Informações sobre o curso.</p>
-                    <a href="/Curso" style="background-color:white;" class="btn">Ir para Curso</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row justify-content-center">
-        <div class="col-12 col-md-4 mb-4">
-            <div class="card custom-card bg-secondary text-white">
-                <div class="card-body">
-                    <h5 class="card-title">Banca</h5>
-                    <p class="card-text">Detalhes sobre a banca avaliadora.</p>
-                    <a href="/Banca" style="background-color:white;" class="btn">Ir para Banca</a>
-                </div>
+
+            <div class="card" style="background-color: #4B0082;">
+                <h3 class="card-title">Orientador</h3>
+                <p class="card-text">Informações sobre o orientador do trabalho. O orientador guia o autor do TCCo.</p>
+                <a href="/Orientador" class="btn-custom">
+                    Acesse
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z" />
+                        <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z" />
+                    </svg>
+                </a>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Adicionando o CSS customizado para o efeito de hover -->
+
 <style>
-    .custom-card {
+    body {
+        background-color: #ffffff; /* Fundo bege */
+        font-family: 'Aptos';
+    }
+
+    .main-heading {
+        text-align: center;
+        font-size: 2.5rem;
+        margin-top: 20px;
+    }
+
+    .sub-heading {
+        text-align: center;
+        color: #6c757d;
+        font-size: 1.2rem;
+        margin-bottom: 40px;
+    }
+
+    .card-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr; /* Três colunas */
+        gap: 1px; /* Distância entre as colunas reduzida pela metade */
+        justify-items: center;
+        margin-top: 10px;
+    }
+
+
+    .card-column {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .card {
+        width: 250px;
+        padding: 20px;
+        border-radius: 15px;
+        color: white;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        text-align: center;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-        .custom-card:hover {
+        .card:hover {
             transform: scale(1.05);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
         }
+
+    .card-title {
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+
+    .card-text {
+        font-size: 1rem;
+        margin: 10px 0;
+    }
+
+    .btn-custom {
+        display: block;
+        width: 80%;
+        margin: 10px auto;
+        padding: 8px 0;
+        font-weight: bold;
+        background-color: #ffffff;
+        color: black;
+        border-radius: 20px;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+        .btn-custom:hover {
+            background-color: black;
+            color: white;
+        }
+
+    .banca-card {
+        width: 600px; /* Aumentar o tamanho da Banca */
+    }
 </style>

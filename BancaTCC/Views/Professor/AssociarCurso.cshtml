@@ -1,0 +1,23 @@
+﻿@model BancaTCC.Models.Professor
+
+@{
+    ViewData["Title"] = "Associar Curso";
+}
+
+<h1>Associar Curso ao Professor</h1>
+
+<h4>@Model.Nome</h4>
+
+<form method="post" asp-action="AssociarCursoConfirmado" asp-route-professorId="@Model.Id">
+    <div class="form-group">
+        <label for="CursoId">Selecione o Curso</label>
+        <select id="CursoId" name="CursoId" class="form-control">
+            @foreach (var curso in ViewBag.CursoId as SelectList)
+            {
+                <option value="@curso.Value">@curso.Text</option>
+            }
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Associar Curso</button>
+</form>

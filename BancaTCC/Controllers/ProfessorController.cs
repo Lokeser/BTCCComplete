@@ -34,7 +34,8 @@ namespace BancaTCC.Controllers
             }
 
             var professor = await _context.Professores
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .Include(p => p.Cursos)
+                .FirstOrDefaultAsync(p => p.Id == id);
             if (professor == null)
             {
                 return NotFound();
@@ -197,5 +198,74 @@ namespace BancaTCC.Controllers
         {
             return _context.Professores.Any(e => e.Id == id);
         }
+        // Ação no Controller de Professor
+        // Exibe a tela para associar o curso ao professor
+
+        public async Task<IActionResult> AssociarCurso(int professorId)
+        {
+            var professor = await _context.Professores
+                .FirstOrDefaultAsync(p => p.Id == professorId);
+
+            if (professor == null)
+            {
+                return NotFound();
+            }
+
+            // Usando ViewBag para passar os cursos disponíveis para seleção
+            ViewBag.CursoId = new SelectList(_context.Cursos, "Id", "Nome");
+
+            // Passa o professor para a view
+            return View(professor);
+        }
+
+
+
+
+        // Ação POST para associar o professor ao curso
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AssociarCursoConfirmado(int professorId, int cursoId)
+        {
+            // Buscar o professor
+            var professor = await _context.Professores
+                .Include(p => p.Cursos) // Inclui os cursos do professor
+                .FirstOrDefaultAsync(p => p.Id == professorId);
+
+            if (professor == null)
+            {
+                return NotFound("Professor não encontrado.");
+            }
+
+            // Buscar o curso
+            var curso = await _context.Cursos
+                .Include(c => c.Professores) // Inclui os professores do curso
+                .FirstOrDefaultAsync(c => c.Id == cursoId);
+
+            if (curso == null)
+            {
+                return NotFound("Curso não encontrado.");
+            }
+
+            // Associar o curso ao professor (se ainda não estiver associado)
+            if (!professor.Cursos.Contains(curso))
+            {
+                professor.Cursos.Add(curso);
+            }
+
+            // Associar o professor ao curso (se ainda não estiver associado)
+            if (!curso.Professores.Contains(professor))
+            {
+                curso.Professores.Add(professor);
+            }
+
+            // Salvar alterações
+            await _context.SaveChangesAsync();
+
+            // Redirecionar para a página de detalhes do professor
+            return RedirectToAction("Details", new { id = professorId });
+        }
+
+
+
     }
 }

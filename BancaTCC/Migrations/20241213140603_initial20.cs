@@ -5,7 +5,7 @@
 namespace BancaTCC.Migrations
 {
     /// <inheritdoc />
-    public partial class initial13 : Migration
+    public partial class initial20 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
