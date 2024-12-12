@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BancaTCC.Data;
-using BancaTCC.Models;
 
 namespace BancaTCC.Controllers
 {
@@ -46,23 +45,12 @@ namespace BancaTCC.Controllers
         // GET: Curso/Create
         public IActionResult Create()
         {
-            // Lista de áreas sem ordem específica
-            var areas = new List<string>
-            {
-                "Artes e Humanas",
-                "Ciências Biológicas e de Saúde",
-                "Ciências Exatas e Tecnológicas",
-                "Ciências Sociais e Aplicadas",
-                "Educação"
-            };
-
-            // Passando a lista de áreas para a view sem ordenação
-            ViewData["Areas"] = areas;
-
             return View();
         }
 
         // POST: Curso/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Nome,Area,CargaHoraria")] Curso curso)
@@ -73,21 +61,9 @@ namespace BancaTCC.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-
-            // Repassando as áreas para a view caso o modelo não seja válido
-            var areas = new List<string>
-            {
-                "Artes e Humanas",
-                "Ciências Biológicas e de Saúde",
-                "Ciências Exatas e Tecnológicas",
-                "Ciências Sociais e Aplicadas",
-                "Educação"
-            };
-
-            ViewData["Areas"] = areas;
-
             return View(curso);
         }
+
         // GET: Curso/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -109,7 +85,7 @@ namespace BancaTCC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Area,CargaHoraria")] Curso curso)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Area,CargaHoraria,AutorId,ProfessorId")] Curso curso)
         {
             if (id != curso.Id)
             {

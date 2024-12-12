@@ -52,18 +52,40 @@ namespace BancaTCC.Controllers
         // POST: MembroExterior/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: MembroExterior/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Nome,Telefone,Email")] MembroExterior membroExterior)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(membroExterior);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                // Verifica se já existe um membro com o mesmo email
+                var emailExistente3 = await _context.MembrosExternos
+                    .FirstOrDefaultAsync(a => a.Email == membroExterior.Email);
+                if (emailExistente3 != null)
+                {
+                    ModelState.AddModelError("Email", "Já existe um membro com esse email.");
+                }
+
+                // Verifica se já existe um membro com o mesmo telefone
+                var telefoneExistente = await _context.MembrosExternos
+                    .FirstOrDefaultAsync(a => a.Telefone == membroExterior.Telefone);
+                if (telefoneExistente != null)
+                {
+                    ModelState.AddModelError("Telefone", "Já existe um membro com esse telefone.");
+                }
+
+                // Se não houver erros, salva o novo membro
+                if (ModelState.IsValid)
+                {
+                    _context.Add(membroExterior);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
             }
             return View(membroExterior);
         }
+
 
         // GET: MembroExterior/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -82,8 +104,6 @@ namespace BancaTCC.Controllers
         }
 
         // POST: MembroExterior/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Telefone,Email")] MembroExterior membroExterior)
@@ -97,8 +117,29 @@ namespace BancaTCC.Controllers
             {
                 try
                 {
-                    _context.Update(membroExterior);
-                    await _context.SaveChangesAsync();
+                    // Verifica se já existe um membro com o mesmo email, mas ignorando o próprio membro
+                    var emailExistente = await _context.MembrosExternos
+                        .FirstOrDefaultAsync(a => a.Email == membroExterior.Email && a.Id != membroExterior.Id);
+                    if (emailExistente != null)
+                    {
+                        ModelState.AddModelError("Email", "Já existe um membro com esse email.");
+                    }
+
+                    // Verifica se já existe um membro com o mesmo telefone, mas ignorando o próprio membro
+                    var telefoneExistente = await _context.MembrosExternos
+                        .FirstOrDefaultAsync(a => a.Telefone == membroExterior.Telefone && a.Id != membroExterior.Id);
+                    if (telefoneExistente != null)
+                    {
+                        ModelState.AddModelError("Telefone", "Já existe um membro com esse telefone.");
+                    }
+
+                    // Se não houver erros, atualiza o membro
+                    if (ModelState.IsValid)
+                    {
+                        _context.Update(membroExterior);
+                        await _context.SaveChangesAsync();
+                        return RedirectToAction(nameof(Index));
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -111,10 +152,10 @@ namespace BancaTCC.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
             }
             return View(membroExterior);
         }
+
 
         // GET: MembroExterior/Delete/5
         public async Task<IActionResult> Delete(int? id)

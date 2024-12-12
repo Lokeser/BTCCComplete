@@ -1,0 +1,29 @@
+﻿@model BancaTCC.Models.Comentario
+
+@{
+    ViewData["Title"] = "Comentar";
+}
+
+<h1>Comentar sobre a Banca</h1>
+
+<form asp-action="CreateComentario">
+    <div class="form-group">
+        <label asp-for="ProfessorId">Professor</label>
+        <select asp-for="ProfessorId" class="form-control" asp-items="ViewBag.Professores"></select>
+    </div>
+    <div class="form-group">
+        <label asp-for="Texto">Comentário</label>
+        <textarea asp-for="Texto" class="form-control"></textarea>
+    </div>
+    <input type="hidden" asp-for="BancaId" />
+    <button type="submit" class="btn btn-warning">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-right-dots-fill" viewBox="0 0 16 16">
+            <path d="M16 2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h9.586a1 1 0 0 1 .707.293l2.853 2.853a.5.5 0 0 0 .854-.353zM5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0m4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0m3 1a1 1 0 1 1 0-2 1 1 0 0 1 0 2" />
+        </svg> Comentar
+    </button>
+    <a asp-action="Index" asp-route-id="@Model?.Id" class="btn btn-white btn-sm">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-square-fill" viewBox="0 0 16 16">
+            <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm4 4a.5.5 0 0 0-.374.832l4 4.5a.5.5 0 0 0 .748 0l4-4.5A.5.5 0 0 0 12 6z" />
+        </svg> Voltar á Lista
+    </a>
+</form>

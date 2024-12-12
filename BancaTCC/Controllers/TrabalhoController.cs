@@ -22,11 +22,13 @@ namespace BancaTCC.Controllers
         // GET: Trabalho
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Trabalhos.ToListAsync());
+            var bancaTCCContext = _context.Trabalhos.Include(t => t.Autor).Include(t => t.Banca);
+            var trabalhos = await _context.Trabalhos.Include(t => t.Banca).ToListAsync();
+            return View(await bancaTCCContext.ToListAsync());
         }
 
         // GET: Trabalho/Details/5
-        public async Task<IActionResult> Details(long? id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
@@ -34,6 +36,8 @@ namespace BancaTCC.Controllers
             }
 
             var trabalho = await _context.Trabalhos
+                .Include(t => t.Autor)
+                .Include(t => t.Banca)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (trabalho == null)
             {
@@ -46,6 +50,7 @@ namespace BancaTCC.Controllers
         // GET: Trabalho/Create
         public IActionResult Create()
         {
+            ViewData["AutorId"] = new SelectList(_context.Autores, "Id", "Nome");
             return View();
         }
 
@@ -54,7 +59,7 @@ namespace BancaTCC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,TrabalhoTema,TrabalhoArea,TrabalhoLink,TrabalhoGitLink")] Trabalho trabalho)
+        public async Task<IActionResult> Create([Bind("Id,TrabalhoTema,TrabalhoArea,TrabalhoLink,TrabalhoGitLink,AutorId")] Trabalho trabalho)
         {
             if (ModelState.IsValid)
             {
@@ -62,11 +67,12 @@ namespace BancaTCC.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["AutorId"] = new SelectList(_context.Autores, "Id", "Nome", trabalho.AutorId);
             return View(trabalho);
         }
 
         // GET: Trabalho/Edit/5
-        public async Task<IActionResult> Edit(long? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
@@ -78,6 +84,8 @@ namespace BancaTCC.Controllers
             {
                 return NotFound();
             }
+            ViewData["AutorId"] = new SelectList(_context.Autores, "Id", "Nome", trabalho.AutorId);
+            ViewData["Id"] = new SelectList(_context.Bancas, "Id", "Id", trabalho.Id);
             return View(trabalho);
         }
 
@@ -86,7 +94,7 @@ namespace BancaTCC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long? id, [Bind("Id,TrabalhoTema,TrabalhoArea,TrabalhoLink,TrabalhoGitLink")] Trabalho trabalho)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,TrabalhoTema,TrabalhoArea,TrabalhoLink,TrabalhoGitLink,AutorId")] Trabalho trabalho)
         {
             if (id != trabalho.Id)
             {
@@ -113,11 +121,13 @@ namespace BancaTCC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["AutorId"] = new SelectList(_context.Autores, "Id", "Nome", trabalho.AutorId);
+            ViewData["Id"] = new SelectList(_context.Bancas, "Id", "Id", trabalho.Id);
             return View(trabalho);
         }
 
         // GET: Trabalho/Delete/5
-        public async Task<IActionResult> Delete(long? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
@@ -125,6 +135,8 @@ namespace BancaTCC.Controllers
             }
 
             var trabalho = await _context.Trabalhos
+                .Include(t => t.Autor)
+                .Include(t => t.Banca)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (trabalho == null)
             {
@@ -137,7 +149,7 @@ namespace BancaTCC.Controllers
         // POST: Trabalho/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(long? id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var trabalho = await _context.Trabalhos.FindAsync(id);
             if (trabalho != null)
@@ -149,9 +161,10 @@ namespace BancaTCC.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool TrabalhoExists(long? id)
+        private bool TrabalhoExists(int id)
         {
             return _context.Trabalhos.Any(e => e.Id == id);
         }
+
     }
 }

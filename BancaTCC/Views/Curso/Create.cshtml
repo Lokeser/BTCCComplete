@@ -1,4 +1,4 @@
-﻿@model BancaTCC.Models.Curso
+﻿@model Curso
 
 @{
     ViewData["Title"] = "Create";
@@ -10,52 +10,42 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create" method="post">
+        <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-            <!-- Campo Nome do Curso -->
             <div class="form-group">
                 <label asp-for="Nome" class="control-label"></label>
                 <input asp-for="Nome" class="form-control" />
                 <span asp-validation-for="Nome" class="text-danger"></span>
             </div>
-
-            <!-- Campo Seleção de Área -->
             <div class="form-group">
                 <label asp-for="Area" class="control-label"></label>
-                <select name="Area" id="Area" class="form-control">
-                    <option value="">Selecione a Área</option>
-                    <option value="Artes e Humanas">Artes e Humanas</option>
-                    <option value="Ciências Biológicas e de Saúde">Ciências Biológicas e de Saúde</option>
-                    <option value="Ciências Exatas e Tecnológicas">Ciências Exatas e Tecnológicas</option>
-                    <option value="Ciências Sociais e Aplicadas">Ciências Sociais e Aplicadas</option>
-                    <option value="Educação">Educação</option>
-                </select>
-                <span asp-validation-for="Area" class="text-danger"></span> <!-- Validação de erro -->
+                <input asp-for="Area" class="form-control" />
+                <span asp-validation-for="Area" class="text-danger"></span>
             </div>
-
-            <!-- Campo Carga Horária -->
             <div class="form-group">
                 <label asp-for="CargaHoraria" class="control-label"></label>
-                <input asp-for="CargaHoraria" type="number" class="form-control" />
+                <input asp-for="CargaHoraria" class="form-control" />
                 <span asp-validation-for="CargaHoraria" class="text-danger"></span>
-            </div>
-
-            <!-- Botão de Enviar -->
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
-<!-- Link para Voltar à Lista de Cursos -->
 <div>
-    <a asp-action="Index">Back to List</a>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-plus-fill" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5m6.5-11a.5.5 0 0 0-1 0V6H6a.5.5 0 0 0 0 1h1.5v1.5a.5.5 0 0 0 1 0V7H10a.5.5 0 0 0 0-1H8.5z" />
+            </svg> Create
+        </button>
+        | <a asp-action="Index" asp-route-id="@Model?.Id" class="btn btn-white btn-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-square-fill" viewBox="0 0 16 16">
+                <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm4 4a.5.5 0 0 0-.374.832l4 4.5a.5.5 0 0 0 .748 0l4-4.5A.5.5 0 0 0 12 6z" />
+            </svg> Voltar á Lista
+        </a>
+    </div>
 </div>
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

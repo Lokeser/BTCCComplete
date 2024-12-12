@@ -48,7 +48,7 @@ namespace BancaTCC.Controllers
         // GET: Autor/Create
         public IActionResult Create()
         {
-            ViewData["CursoId"] = new SelectList(_context.Cursos, "Id", "Area");
+            ViewData["CursoId"] = new SelectList(_context.Cursos, "Id", "Nome");
             return View();
         }
 
@@ -61,13 +61,39 @@ namespace BancaTCC.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Verifica se já existe um autor com o mesmo email
+                var emailExistente = await _context.Autores
+                    .FirstOrDefaultAsync(a => a.Email == autor.Email);
+                if (emailExistente != null)
+                {
+                    ModelState.AddModelError("Email", "Já existe um autor com esse email.");
+                }
+
+                // Verifica se já existe um autor com a mesma matrícula
+                var matriculaExistente = await _context.Autores
+                    .FirstOrDefaultAsync(a => a.Matricula == autor.Matricula);
+                if (matriculaExistente != null)
+                {
+                    ModelState.AddModelError("Matricula", "Já existe um autor com essa matrícula.");
+                }
+
+                // Se houver erros de validação, retorna a view
+                if (!ModelState.IsValid)
+                {
+                    ViewData["CursoId"] = new SelectList(_context.Cursos, "Id", "Nome", autor.CursoId);
+                    return View(autor);
+                }
+
                 _context.Add(autor);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CursoId"] = new SelectList(_context.Cursos, "Id", "Area", autor.CursoId);
+
+            ViewData["CursoId"] = new SelectList(_context.Cursos, "Id", "Nome", autor.CursoId);
             return View(autor);
         }
+
+
 
         // GET: Autor/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -82,7 +108,7 @@ namespace BancaTCC.Controllers
             {
                 return NotFound();
             }
-            ViewData["CursoId"] = new SelectList(_context.Cursos, "Id", "Area", autor.CursoId);
+            ViewData["CursoId"] = new SelectList(_context.Cursos, "Id", "Nome", autor.CursoId);
             return View(autor);
         }
 
@@ -118,7 +144,7 @@ namespace BancaTCC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CursoId"] = new SelectList(_context.Cursos, "Id", "Area", autor.CursoId);
+            ViewData["CursoId"] = new SelectList(_context.Cursos, "Id", "Nome", autor.CursoId);
             return View(autor);
         }
 

@@ -22,7 +22,8 @@ namespace BancaTCC.Controllers
         // GET: Orientador
         public async Task<IActionResult> Index()
         {
-            return View(await _context.OrientadoresIndicados.ToListAsync());
+            var bancaTCCContext = _context.OrientadoresIndicados.Include(o => o.Professor);
+            return View(await bancaTCCContext.ToListAsync());
         }
 
         // GET: Orientador/Details/5
@@ -34,6 +35,7 @@ namespace BancaTCC.Controllers
             }
 
             var orientador = await _context.OrientadoresIndicados
+                .Include(o => o.Professor)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (orientador == null)
             {
@@ -46,6 +48,7 @@ namespace BancaTCC.Controllers
         // GET: Orientador/Create
         public IActionResult Create()
         {
+            ViewData["ProfessorId"] = new SelectList(_context.Professores, "Id", "Nome");
             return View();
         }
 
@@ -54,7 +57,7 @@ namespace BancaTCC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,OrdemPreferencia,Status")] Orientador orientador)
+        public async Task<IActionResult> Create([Bind("Id,OrdemPreferencia,Status,ProfessorId")] Orientador orientador)
         {
             if (ModelState.IsValid)
             {
@@ -62,6 +65,7 @@ namespace BancaTCC.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["ProfessorId"] = new SelectList(_context.Professores, "Id", "Nome");
             return View(orientador);
         }
 
@@ -78,6 +82,7 @@ namespace BancaTCC.Controllers
             {
                 return NotFound();
             }
+            ViewData["ProfessorId"] = new SelectList(_context.Professores, "Id", "Nome");
             return View(orientador);
         }
 
@@ -86,7 +91,7 @@ namespace BancaTCC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,OrdemPreferencia,Status")] Orientador orientador)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,OrdemPreferencia,Status,ProfessorId")] Orientador orientador)
         {
             if (id != orientador.Id)
             {
@@ -113,6 +118,7 @@ namespace BancaTCC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["ProfessorId"] = new SelectList(_context.Professores, "Id", "Nome");
             return View(orientador);
         }
 
@@ -125,6 +131,7 @@ namespace BancaTCC.Controllers
             }
 
             var orientador = await _context.OrientadoresIndicados
+                .Include(o => o.Professor)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (orientador == null)
             {

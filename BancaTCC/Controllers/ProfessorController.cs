@@ -52,18 +52,40 @@ namespace BancaTCC.Controllers
         // POST: Professor/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Professor/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Nome,Matricula,Email")] Professor professor)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(professor);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                // Verifica se já existe um professor com o mesmo email
+                var emailExistente2 = await _context.Professores
+                    .FirstOrDefaultAsync(a => a.Email == professor.Email);
+                if (emailExistente2 != null)
+                {
+                    ModelState.AddModelError("Email", "Já existe um professor com esse email.");
+                }
+
+                // Verifica se já existe um professor com a mesma matrícula
+                var matriculaExistente2 = await _context.Professores
+                    .FirstOrDefaultAsync(a => a.Matricula == professor.Matricula);
+                if (matriculaExistente2 != null)
+                {
+                    ModelState.AddModelError("Matricula", "Já existe um professor com essa matrícula.");
+                }
+
+                // Se não houver erros, salva o novo professor
+                if (ModelState.IsValid)
+                {
+                    _context.Add(professor);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
             }
             return View(professor);
         }
+
 
         // GET: Professor/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -84,6 +106,7 @@ namespace BancaTCC.Controllers
         // POST: Professor/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Professor/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Matricula,Email")] Professor professor)
@@ -97,8 +120,29 @@ namespace BancaTCC.Controllers
             {
                 try
                 {
-                    _context.Update(professor);
-                    await _context.SaveChangesAsync();
+                    // Verifica se já existe um professor com o mesmo email, mas ignorando o próprio professor
+                    var emailExistente = await _context.Professores
+                        .FirstOrDefaultAsync(a => a.Email == professor.Email && a.Id != professor.Id);
+                    if (emailExistente != null)
+                    {
+                        ModelState.AddModelError("Email", "Já existe um professor com esse email.");
+                    }
+
+                    // Verifica se já existe um professor com a mesma matrícula, mas ignorando o próprio professor
+                    var matriculaExistente = await _context.Professores
+                        .FirstOrDefaultAsync(a => a.Matricula == professor.Matricula && a.Id != professor.Id);
+                    if (matriculaExistente != null)
+                    {
+                        ModelState.AddModelError("Matricula", "Já existe um professor com essa matrícula.");
+                    }
+
+                    // Se não houver erros, atualiza o professor
+                    if (ModelState.IsValid)
+                    {
+                        _context.Update(professor);
+                        await _context.SaveChangesAsync();
+                        return RedirectToAction(nameof(Index));
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -111,10 +155,10 @@ namespace BancaTCC.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
             }
             return View(professor);
         }
+
 
         // GET: Professor/Delete/5
         public async Task<IActionResult> Delete(int? id)

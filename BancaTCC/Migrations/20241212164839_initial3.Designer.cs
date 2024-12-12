@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BancaTCC.Migrations
 {
     [DbContext(typeof(BancaTCCContext))]
-    [Migration("20241211164620_initial4")]
-    partial class initial4
+    [Migration("20241212164839_initial3")]
+    partial class initial3
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,36 @@ namespace BancaTCC.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("BancaMembroExterior", b =>
+                {
+                    b.Property<int>("BancasId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MembroExterioresId")
+                        .HasColumnType("int");
+
+                    b.HasKey("BancasId", "MembroExterioresId");
+
+                    b.HasIndex("MembroExterioresId");
+
+                    b.ToTable("BancaMembroExterior");
+                });
+
+            modelBuilder.Entity("BancaProfessor", b =>
+                {
+                    b.Property<int>("BancasId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProfessoresId")
+                        .HasColumnType("int");
+
+                    b.HasKey("BancasId", "ProfessoresId");
+
+                    b.HasIndex("ProfessoresId");
+
+                    b.ToTable("BancaProfessor", (string)null);
+                });
 
             modelBuilder.Entity("BancaTCC.Models.Autor", b =>
                 {
@@ -40,13 +70,14 @@ namespace BancaTCC.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Matricula")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Matricula")
+                        .HasMaxLength(10)
+                        .HasColumnType("int");
 
                     b.Property<string>("Nome")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
@@ -72,28 +103,26 @@ namespace BancaTCC.Migrations
                     b.Property<TimeSpan>("HoraInicio")
                         .HasColumnType("time");
 
+                    b.Property<int?>("MembroExteriorId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Observacoes")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ProfessorId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Resultado")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TrabalhoId")
-                        .HasColumnType("int");
-
-                    b.Property<long>("TrabalhoId1")
-                        .HasColumnType("bigint");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("TrabalhoId1");
 
                     b.ToTable("Bancas");
                 });
 
-            modelBuilder.Entity("BancaTCC.Models.Curso", b =>
+            modelBuilder.Entity("BancaTCC.Models.MembroExterior", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -101,31 +130,7 @@ namespace BancaTCC.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Area")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("CargaHoraria")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Cursos");
-                });
-
-            modelBuilder.Entity("BancaTCC.Models.MembroExterno", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("BancaId")
+                    b.Property<int?>("BancaId")
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
@@ -138,11 +143,10 @@ namespace BancaTCC.Migrations
 
                     b.Property<string>("Telefone")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(11)
+                        .HasColumnType("nvarchar(11)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BancaId");
 
                     b.ToTable("MembrosExternos");
                 });
@@ -161,21 +165,13 @@ namespace BancaTCC.Migrations
                     b.Property<int>("ProfessorId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TrabalhoId")
+                    b.Property<int>("Status")
                         .HasColumnType("int");
-
-                    b.Property<long>("TrabalhoId1")
-                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProfessorId");
-
-                    b.HasIndex("TrabalhoId1");
+                    b.HasIndex("ProfessorId")
+                        .IsUnique();
 
                     b.ToTable("OrientadoresIndicados");
                 });
@@ -187,6 +183,12 @@ namespace BancaTCC.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("BancaId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CursoId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -207,13 +209,19 @@ namespace BancaTCC.Migrations
 
             modelBuilder.Entity("BancaTCC.Models.Trabalho", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("AutorId")
+                    b.Property<int>("AutorId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("BancaId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("OrientadorId")
                         .HasColumnType("int");
 
                     b.Property<string>("TrabalhoArea")
@@ -236,66 +244,146 @@ namespace BancaTCC.Migrations
 
                     b.HasIndex("AutorId");
 
+                    b.HasIndex("BancaId");
+
+                    b.HasIndex("OrientadorId");
+
                     b.ToTable("Trabalhos");
+                });
+
+            modelBuilder.Entity("Curso", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Area")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("AutorId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CargaHoraria")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ProfessorId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Cursos");
+                });
+
+            modelBuilder.Entity("CursoProfessor", b =>
+                {
+                    b.Property<int>("CursosId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProfessoresId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CursosId", "ProfessoresId");
+
+                    b.HasIndex("ProfessoresId");
+
+                    b.ToTable("CursoProfessor", (string)null);
+                });
+
+            modelBuilder.Entity("BancaMembroExterior", b =>
+                {
+                    b.HasOne("BancaTCC.Models.Banca", null)
+                        .WithMany()
+                        .HasForeignKey("BancasId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BancaTCC.Models.MembroExterior", null)
+                        .WithMany()
+                        .HasForeignKey("MembroExterioresId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("BancaProfessor", b =>
+                {
+                    b.HasOne("BancaTCC.Models.Banca", null)
+                        .WithMany()
+                        .HasForeignKey("BancasId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BancaTCC.Models.Professor", null)
+                        .WithMany()
+                        .HasForeignKey("ProfessoresId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("BancaTCC.Models.Autor", b =>
                 {
-                    b.HasOne("BancaTCC.Models.Curso", "Curso")
-                        .WithMany()
+                    b.HasOne("Curso", "Curso")
+                        .WithMany("Autores")
                         .HasForeignKey("CursoId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Curso");
                 });
 
-            modelBuilder.Entity("BancaTCC.Models.Banca", b =>
-                {
-                    b.HasOne("BancaTCC.Models.Trabalho", "Trabalho")
-                        .WithMany()
-                        .HasForeignKey("TrabalhoId1")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Trabalho");
-                });
-
-            modelBuilder.Entity("BancaTCC.Models.MembroExterno", b =>
-                {
-                    b.HasOne("BancaTCC.Models.Banca", "Banca")
-                        .WithMany("MembrosExternos")
-                        .HasForeignKey("BancaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Banca");
-                });
-
             modelBuilder.Entity("BancaTCC.Models.Orientador", b =>
                 {
                     b.HasOne("BancaTCC.Models.Professor", "Professor")
-                        .WithMany("OrientadoresIndicados")
-                        .HasForeignKey("ProfessorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BancaTCC.Models.Trabalho", "Trabalho")
-                        .WithMany()
-                        .HasForeignKey("TrabalhoId1")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .WithOne()
+                        .HasForeignKey("BancaTCC.Models.Orientador", "ProfessorId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Professor");
-
-                    b.Navigation("Trabalho");
                 });
 
             modelBuilder.Entity("BancaTCC.Models.Trabalho", b =>
                 {
-                    b.HasOne("BancaTCC.Models.Autor", null)
+                    b.HasOne("BancaTCC.Models.Autor", "Autor")
                         .WithMany("Trabalhos")
-                        .HasForeignKey("AutorId");
+                        .HasForeignKey("AutorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("BancaTCC.Models.Banca", "Banca")
+                        .WithMany("Trabalhos")
+                        .HasForeignKey("BancaId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("BancaTCC.Models.Orientador", null)
+                        .WithMany("Trabalhos")
+                        .HasForeignKey("OrientadorId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Autor");
+
+                    b.Navigation("Banca");
+                });
+
+            modelBuilder.Entity("CursoProfessor", b =>
+                {
+                    b.HasOne("Curso", null)
+                        .WithMany()
+                        .HasForeignKey("CursosId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BancaTCC.Models.Professor", null)
+                        .WithMany()
+                        .HasForeignKey("ProfessoresId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("BancaTCC.Models.Autor", b =>
@@ -305,12 +393,17 @@ namespace BancaTCC.Migrations
 
             modelBuilder.Entity("BancaTCC.Models.Banca", b =>
                 {
-                    b.Navigation("MembrosExternos");
+                    b.Navigation("Trabalhos");
                 });
 
-            modelBuilder.Entity("BancaTCC.Models.Professor", b =>
+            modelBuilder.Entity("BancaTCC.Models.Orientador", b =>
                 {
-                    b.Navigation("OrientadoresIndicados");
+                    b.Navigation("Trabalhos");
+                });
+
+            modelBuilder.Entity("Curso", b =>
+                {
+                    b.Navigation("Autores");
                 });
 #pragma warning restore 612, 618
         }
