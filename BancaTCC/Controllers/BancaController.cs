@@ -70,6 +70,12 @@ namespace BancaTCC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Banca banca, int[] professoresSelecionados, int[] membrosExteriorSelecionados)
         {
+            // Validação: Verificar se a data da banca está no passado
+            if (banca.Data < DateTime.Now)
+            {
+                ModelState.AddModelError("Data", "A data da banca não pode estar no passado.");
+            }
+
             // Validação: O número de professores selecionados deve ser entre 1 e 3
             if (professoresSelecionados.Length > 3)
             {
@@ -82,6 +88,7 @@ namespace BancaTCC.Controllers
                 banca.Professores = _context.Professores
                     .Where(p => professoresSelecionados.Contains(p.Id))
                     .ToList();
+
                 banca.MembroExteriores = _context.MembrosExternos
                     .Where(m => membrosExteriorSelecionados.Contains(m.Id))
                     .ToList();
@@ -99,14 +106,26 @@ namespace BancaTCC.Controllers
         }
 
 
+
         // GET: Banca/Comentario
         public IActionResult Comentario(int id)
         {
-            var professores = _context.Professores.ToList();
-            if (professores == null || !professores.Any())
+            // Obtenha a banca com os professores relacionados
+            var banca = _context.Bancas
+                .Include(b => b.Professores) // Inclui os professores relacionados
+                .FirstOrDefault(b => b.Id == id);
+
+            if (banca == null)
             {
-                // Adiciona uma lógica para exibir uma mensagem de erro ou carregar um estado vazio
-                ModelState.AddModelError("", "Nenhum professor encontrado. Por favor, adicione professores.");
+                return NotFound("Banca não encontrada.");
+            }
+
+            // Obtenha os professores e membros externos da banca
+            var professores = banca.Professores;
+
+            if (!professores.Any())
+            {
+                ModelState.AddModelError("", "Nenhum professor associado à banca. Por favor, associe professores à banca.");
             }
 
             // Converter a lista de professores para SelectListItem
@@ -123,6 +142,7 @@ namespace BancaTCC.Controllers
 
             return View(comentario);
         }
+
 
 
 
@@ -183,6 +203,11 @@ namespace BancaTCC.Controllers
             if (professoresSelecionados.Length > 3)
             {
                 ModelState.AddModelError("ProfessoresSelecionados", "Você deve selecionar no máximo 3 professores.");
+            }
+
+            if (banca.Data < DateTime.Now)
+            {
+                ModelState.AddModelError("Data", "A data da banca não pode estar no passado.");
             }
 
             if (ModelState.IsValid)

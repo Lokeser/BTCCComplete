@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BancaTCC.Migrations
 {
     /// <inheritdoc />
-    public partial class initial1 : Migration
+    public partial class initialfinal : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -21,7 +21,8 @@ namespace BancaTCC.Migrations
                     HoraInicio = table.Column<TimeSpan>(type: "time", nullable: false),
                     HoraFim = table.Column<TimeSpan>(type: "time", nullable: false),
                     Resultado = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Observacoes = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Observacoes = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TrabalhoId = table.Column<int>(type: "int", nullable: true),
                     MembroExteriorId = table.Column<int>(type: "int", nullable: true),
                     ProfessorId = table.Column<int>(type: "int", nullable: true)
                 },
@@ -87,7 +88,7 @@ namespace BancaTCC.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nome = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Matricula = table.Column<int>(type: "int", maxLength: 10, nullable: false),
+                    Matricula = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CursoId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -151,6 +152,33 @@ namespace BancaTCC.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Comentarios",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Texto = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    BancaId = table.Column<int>(type: "int", nullable: false),
+                    ProfessorId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Comentarios", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Comentarios_Bancas_BancaId",
+                        column: x => x.BancaId,
+                        principalTable: "Bancas",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Comentarios_Professores_ProfessorId",
+                        column: x => x.ProfessorId,
+                        principalTable: "Professores",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "CursoProfessor",
                 columns: table => new
                 {
@@ -181,7 +209,7 @@ namespace BancaTCC.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     OrdemPreferencia = table.Column<int>(type: "int", nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: true),
                     ProfessorId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -248,6 +276,16 @@ namespace BancaTCC.Migrations
                 column: "ProfessoresId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Comentarios_BancaId",
+                table: "Comentarios",
+                column: "BancaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Comentarios_ProfessorId",
+                table: "Comentarios",
+                column: "ProfessorId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_CursoProfessor_ProfessoresId",
                 table: "CursoProfessor",
                 column: "ProfessoresId");
@@ -282,6 +320,9 @@ namespace BancaTCC.Migrations
 
             migrationBuilder.DropTable(
                 name: "BancaProfessor");
+
+            migrationBuilder.DropTable(
+                name: "Comentarios");
 
             migrationBuilder.DropTable(
                 name: "CursoProfessor");

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BancaTCC.Migrations
 {
     [DbContext(typeof(BancaTCCContext))]
-    [Migration("20241212192542_initial15")]
-    partial class initial15
+    [Migration("20241212231312_initialfinal")]
+    partial class initialfinal
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -108,7 +108,6 @@ namespace BancaTCC.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Observacoes")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("ProfessorId")
@@ -117,6 +116,9 @@ namespace BancaTCC.Migrations
                     b.Property<string>("Resultado")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("TrabalhoId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -193,7 +195,7 @@ namespace BancaTCC.Migrations
                     b.Property<int>("ProfessorId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Status")
+                    b.Property<int?>("Status")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
