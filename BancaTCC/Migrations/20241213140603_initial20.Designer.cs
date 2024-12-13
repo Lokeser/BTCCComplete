@@ -12,8 +12,13 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BancaTCC.Migrations
 {
     [DbContext(typeof(BancaTCCContext))]
+<<<<<<<< HEAD:BancaTCC/Migrations/20241213140603_initial20.Designer.cs
     [Migration("20241213140603_initial20")]
     partial class initial20
+========
+    [Migration("20241212231312_initialfinal")]
+    partial class initialfinal
+>>>>>>>> febab7f1a2e52e90e8f607c6581abd045e32b39f:BancaTCC/Migrations/20241212231312_initialfinal.Designer.cs
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
